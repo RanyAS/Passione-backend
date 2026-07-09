@@ -5,9 +5,6 @@ export async function getGenres() {
         .from("genre")
         .select("*");
 
-    console.log("Error:", error);
-    console.log("Data:", data);
-
     if(error){
         throw error;
     }
