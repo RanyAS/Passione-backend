@@ -4,7 +4,7 @@ export async function getGenresController(req, res) {
     try {
         const genres = await getGenres();
 
-        res.status(200).json(genres);
+        return res.status(200).json(genres);
 
     } catch (error) {
         res.status(500).json(
