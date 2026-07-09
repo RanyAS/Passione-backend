@@ -3,6 +3,6 @@ import { getGenresController } from '../controllers/genreController.js';
 
 const genreRouter = express.Router();
 
-genreRouter.get('/genres', getGenresController);
+genreRouter.get('/', getGenresController);
 
 export default genreRouter;

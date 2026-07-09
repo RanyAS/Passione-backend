@@ -2,19 +2,30 @@
   "name": "passione",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-      "start": "node index.js",
-      "dev": "nodemon index.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "express": "^5.2.1"
-  },
+  "type": "module",
   "devDependencies": {
     "nodemon": "^3.1.14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RanyAS/Passione-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RanyAS/Passione-backend/issues"
+  },
+  "homepage": "https://github.com/RanyAS/Passione-backend#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.108.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
   }
 }
