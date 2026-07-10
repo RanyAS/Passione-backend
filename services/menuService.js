@@ -4,7 +4,11 @@ import supabase from '../database/supabase.js';
 export async function getAllMenu(store_id) {
     const { data, error } = await supabase
         .from("store_menu")
-        .select("*")
+        .select(`
+            *,
+            discounts(*),
+            catchphrase(*)
+            `)
         .eq("store_id", store_id);
 
         if (error) throw error;
@@ -16,7 +20,11 @@ export async function getAllMenu(store_id) {
 export async function getMenu(menu_id){
     const { data, error } = await supabase
         .from("store_menu")
-        .select("*")
+        .select(`
+            *,
+            discounts(*),
+            catchphrase(*)
+            `)
         .eq("id", menu_id)
         .maybeSingle();
 
@@ -30,7 +38,11 @@ export async function insertMenu(menu_data){
     const { data, error } = await supabase
         .from("store_menu")
         .insert(menu_data)
-        .select()
+        .select(`
+            *,
+            discounts(*),
+            catchphrase(*)
+            `)
         .single();
 
         if (error) throw error;
@@ -43,7 +55,11 @@ export async function updateMenu(menu_id, menu_data){
         .from("store_menu")
         .update(menu_data)
         .eq("id", menu_id)
-        .select()
+        .select(`
+            *,
+            discounts(*),
+            catchphrase(*)
+            `)
         .maybeSingle();
 
         if (error) throw error;
@@ -56,7 +72,11 @@ export async function deleteMenu(menu_id) {
         .from("store_menu")
         .delete()
         .eq("id", menu_id)
-        .select()
+        .select(`
+            *,
+            discounts(*),
+            catchphrase(*)
+            `)
         .maybeSingle();
 
         if (error) throw error;
