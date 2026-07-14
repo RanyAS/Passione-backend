@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllHistoryController, insertHistoryController, deleteHistoryController } from "../controllers/historyController";
+import { getAllHistoryController, insertHistoryController, deleteHistoryController } from "../controllers/historyController.js";
 
 const historyRouter = express.Router();
 

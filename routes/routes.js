@@ -5,6 +5,7 @@ import storeRouter from "./storeRoutes.js";
 import menuRouter from "./menuRoutes.js";
 import favRouter from "./favoriteRoutes.js";
 import historyRouter from "./historyRoutes.js";
+import reviewRouter from "./reviewRoutes.js";
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use("/stores", storeRouter);
 router.use("/menu", menuRouter);
 router.use('/fav', favRouter);
 router.use('/history', historyRouter);
+router.use('/review', reviewRouter);
 
 export default router;
