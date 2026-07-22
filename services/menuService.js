@@ -81,5 +81,5 @@ export async function deleteMenu(menu_id) {
 
         if (error) throw error;
 
-    return true;
+    return data;
 }

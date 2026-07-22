@@ -24,3 +24,19 @@ export async function updateStore(store_id, store_data){
 
     return data;
 }
+
+export async function getStoreFromGenre(genre_id) {
+    let query = supabase
+        .from("stores")
+        .select("*");
+
+    if (genre_id) {
+        query = query.eq("genre_id", genre_id);
+    }
+
+    const { data, error } = await query;
+
+    if (error) throw error;
+
+    return data;
+}
