@@ -1,4 +1,4 @@
-import { getStore, updateStore } from '../services/storeService.js';
+import { getStore, updateStore, getStoreFromGenre } from '../services/storeService.js';
 
 const storeData = [
     "sname",
@@ -68,6 +68,21 @@ export async function updateStoreController(req, res){
         return res.status(500).json({
             message: error.message,
         })
+    }
+}
+
+export async function getStoreFromGenreController(req, res) {
+    try {
+        const { genre_id } = req.query;
+
+        const stores = await getStore(genre_id);
+
+        return res.status(200).json(stores);
+
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
+        });
     }
 }
 
