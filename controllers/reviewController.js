@@ -1,4 +1,4 @@
-import { getReview, insertReview, deleteReview } from "../services/reviewService";
+import { getReview, insertReview, deleteReview } from "../services/reviewService.js";
 
 export async function getReviewController(req, res) {
     try {

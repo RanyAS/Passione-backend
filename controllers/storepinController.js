@@ -10,7 +10,7 @@ import {
 // GET all store pins for a store
 export async function getAllStorePinsController(req, res) {
   try {
-    const { store_id } = req.query;
+    const { store_id } = req.params;
     const data = await getAllstorePin(store_id);
 
     return res.status(200).json({
@@ -48,7 +48,7 @@ export async function getStorePinController(req, res) {
 // GET active store pins for a store
 export async function getActiveStorePinsController(req, res) {
   try {
-    const { store_id } = req.query;
+    const { store_id } = req.params;
     const data = await getActiveStorePins(store_id);
 
     return res.status(200).json({

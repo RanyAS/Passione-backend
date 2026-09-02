@@ -1,4 +1,4 @@
-import { getUser, updateUser } from '../services/userService.js';
+import { getUser, updateUser, uploadUserImage } from '../services/userService.js';
 
 const userData = [
     "username",
@@ -65,6 +65,28 @@ export async function updateUserController(req, res){
         return res.status(500).json({
             message: error.message,
         })
+    }
+}
+
+export async function uploadUserImageController(req, res) {
+    try {
+        const { user_id } = req.params;
+
+        if (!req.file) {
+            return res.status(400).json({
+                message: "Image is required",
+            });
+        }
+
+        const user = await uploadUserImage(user_id, req.file);
+
+        res.json(user);
+    } catch (error) {
+        console.error("Upload user image error:", error);
+
+        res.status(500).json({
+            message: error.message,
+        });
     }
 }
 

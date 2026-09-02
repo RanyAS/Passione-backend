@@ -115,9 +115,22 @@ export async function getstorePin(pinId) {
 }
 
 export async function createStorePin(payload) {
+  const start = payload.startsAt
+    ? new Date(payload.startsAt)
+    : null;
+
+  const end = payload.endsAt
+    ? new Date(payload.endsAt)
+    : null;
+
+  const time =
+    start && end
+      ? Math.floor((end.getTime() - start.getTime()) / 60000)
+      : null;
+
   const insertPayload = {
     store_id: payload.storeId,
-    time: payload.time ?? null,
+    time,
     empty_seat: payload.emptySeat,
     rule: payload.rule ?? null,
     description: payload.description ?? null,
@@ -132,8 +145,13 @@ export async function createStorePin(payload) {
     .select(STORE_PIN_SELECT)
     .single();
 
-  if (error) throw error;
-  return mapStorePinRow(data);
+if (error) {
+  console.error("🔥 CREATE STORE PIN ERROR:", error);
+  console.error("🔥 INSERT PAYLOAD:", insertPayload);
+  throw error;
+}  
+
+return mapStorePinRow(data);
 }
 
 export async function updateStorePin(pinId, patch) {
