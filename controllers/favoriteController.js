@@ -1,4 +1,4 @@
-import { getAllFavStore, addFavStore, deleteFavStore } from "../services/favoriteService.js";
+import { getAllFavStore, addFavStore, deleteFavStore, checkFavStore } from "../services/favoriteService.js";
 
 export async function getAllFavStoreController(req, res) {
     try {
@@ -11,6 +11,22 @@ export async function getAllFavStoreController(req, res) {
         return res.status(500).json({
             message: error.message,
         })
+    }
+}
+
+export async function checkFavStoreController(req, res) {
+    try {
+        const { user_id, store_id } = req.params;
+
+        const isFavorite = await checkFavStore(user_id, store_id);
+
+        return res.status(200).json({
+            isFavorite,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
+        });
     }
 }
 

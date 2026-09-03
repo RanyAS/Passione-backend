@@ -5,7 +5,14 @@ export async function getAllFavStore(user_id) {
         .from("user_fav")
         .select(`
             *,
-            store(*)`)
+            stores(
+            *,
+            genre(
+                id,
+                gname
+                )
+            )
+        `)
         .eq("user_id", user_id);
 
         if (error) throw error;
@@ -50,4 +57,17 @@ export async function deleteFavStore(user_id, store_id) {
         if (error) throw error;
 
     return data;
+}
+
+export async function checkFavStore(user_id, store_id) {
+    const { data, error } = await supabase
+        .from("user_fav")
+        .select("id")
+        .eq("user_id", user_id)
+        .eq("store_id", store_id)
+        .maybeSingle();
+
+    if (error) throw error;
+
+    return !!data;
 }

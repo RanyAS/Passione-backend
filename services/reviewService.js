@@ -3,10 +3,15 @@ import supabase from "../database/supabase.js";
 export async function getReview(store_id) {
     const { data, error } = await supabase
         .from("store_review")
-        .select("*")
+        .select(`
+            *,
+            users (
+                username
+            )
+        `)
         .eq("store_id", store_id);
 
-        if (error) throw error;
+    if (error) throw error;
 
     return data;
 }

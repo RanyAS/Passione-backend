@@ -23,12 +23,17 @@ const STORE_PIN_SELECT = `
     genre_id,
     latitude,
     longitude,
-    created_at
+    created_at,
+    genre (
+      id,
+      gname
+    )
   )
 `;
 
 function mapStorePinRow(row) {
   const store = Array.isArray(row.stores) ? row.stores[0] : row.stores;
+  const genre = store?.genre;
 
   return {
     id: row.id,
@@ -51,6 +56,11 @@ function mapStorePinRow(row) {
       site: store.site,
       imagePath: store.image_path,
       genreId: store.genre_id,
+      genre: genre
+        ? {
+            id: genre.id,
+            name: genre.gname,
+          } : null,
       latitude: store.latitude,
       longitude: store.longitude,
       createdAt: store.created_at,
