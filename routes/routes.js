@@ -7,6 +7,7 @@ import favRouter from "./favoriteRoutes.js";
 import historyRouter from "./historyRoutes.js";
 import reviewRouter from "./reviewRoutes.js";
 import storepinRouter from "./storepinRoutes.js";
+import { createReserveRoutes } from "./reserveRoutes.js";
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use('/fav', favRouter);
 router.use('/history', historyRouter);
 router.use('/review', reviewRouter);
 router.use('/storepin', storepinRouter);
+router.use('/reservations', createReserveRoutes());
 
 export default router;

@@ -102,23 +102,12 @@ export async function getActiveStorePins(storeId, nowIso = new Date().toISOStrin
   return allPins.filter((pin) => {
     const afterStart = !pin.startsAt || pin.startsAt <= nowIso;
     const beforeEnd = !pin.endsAt || pin.endsAt >= nowIso;
-
-      console.log("🔥 PIN CHECK:", {
-
-      id: pin.id,
-
-      isActive: pin.isActive,
-
-      startsAt: pin.startsAt,
-
-      endsAt: pin.endsAt,
-
-      afterStart,
-
-      beforeEnd,
-
-    });
-    return pin.isActive && afterStart && beforeEnd;
+    return (
+      pin.isActive &&
+      pin.emptySeat > 0 &&
+      afterStart &&
+      beforeEnd
+    );
   });
 }
 // 特定のピンを取得する

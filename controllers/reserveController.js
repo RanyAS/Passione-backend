@@ -2,6 +2,7 @@ import {
   createReservation,
   getReservationById,
   getReservationsByUserId,
+  getReservationsByStoreId,
   updateReservation,
   confirmReservation,
   failReservation,
@@ -26,6 +27,32 @@ export async function createReserveController(req, res) {
   } catch (error) {
     return res.status(400).json({
       error: error.message ?? 'Failed to create reservation',
+    });
+  }
+}
+
+export async function getStoreReservationsController(req, res) {
+  try {
+    const { storeId } = req.params;
+        console.log("🏪 REQUESTED STORE ID:", storeId);
+
+    if (!storeId) {
+      return res.status(400).json({
+        error: 'storeId is required',
+      });
+    }
+
+    const reservations = await getReservationsByStoreId(storeId);
+
+
+    console.log("📦 STORE RESERVATIONS:", reservations);
+
+    return res.status(200).json({
+      data: reservations,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      error: error.message ?? 'Failed to fetch store reservations',
     });
   }
 }

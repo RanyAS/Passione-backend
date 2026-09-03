@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   createReserveController,
   getReservationByIdController,
+  getStoreReservationsController,
   getMineController,
   updateStatusController,
   confirmController,
@@ -14,36 +15,38 @@ import {
  * @param {{ authMiddleware?: import('express').RequestHandler }} [options]
  */
 export function createReserveRoutes(options = {}) {
-  const router = Router();
+  const reserveRouter = Router();
   const auth = options.authMiddleware;
 
   if (auth) {
-    router.use(auth);
+    reserveRouter.use(auth);
   }
 
   // POST   /reservations
-  router.post('/', createReserveController);
+  reserveRouter.post('/', createReserveController);
 
   // GET    /reservations/me
-  router.get('/me', getMineController);
+  reserveRouter.get('/me', getMineController);
+
+  reserveRouter.get('/store/:storeId', getStoreReservationsController);
 
   // GET    /reservations/:id
-  router.get('/:id', getReservationByIdController);
+  reserveRouter.get('/:id', getReservationByIdController);
 
   // PATCH  /reservations/:id/status
-  router.patch('/:id/status', updateStatusController);
+  reserveRouter.patch('/:id/status', updateStatusController);
 
   // POST   /reservations/:id/confirm
-  router.post('/:id/confirm', confirmController);
+  reserveRouter.post('/:id/confirm', confirmController);
 
   // POST   /reservations/:id/fail
-  router.post('/:id/fail', failController);
+  reserveRouter.post('/:id/fail', failController);
 
   // POST   /reservations/:id/cancel
-  router.post('/:id/cancel', cancelController);
+  reserveRouter.post('/:id/cancel', cancelController);
 
   // DELETE /reservations/:id
-  router.delete('/:id', removeController);
+  reserveRouter.delete('/:id', removeController);
 
-  return router;
+  return reserveRouter;
 }

@@ -10,7 +10,11 @@ const RESERVATION_SELECT = `
   note,
   created_at,
   updated_at,
-  store_pin (
+  users (
+    id,
+    username
+  ),
+  store_pin!inner (
     id,
     store_id,
     time,
@@ -32,10 +36,12 @@ const RESERVATION_SELECT = `
 function mapReservationRow(row) {
   const pin = row.store_pin;
   const store = pin?.stores;
+  const user = row.users;
 
   return {
     id: row.id,
     userId: row.user_id,
+    username: user?.username ?? "ユーザ",
     pinId: row.pin_id,
     status: row.status,
     partySize: row.party_size,
@@ -100,6 +106,18 @@ export async function createReservation({ userId, pinId, partySize = 1, reserved
   return mapReservationRow(data);
 }
 
+export async function getReservationsByStoreId(storeId) {
+  const { data, error } = await supabase
+    .from('reservation')
+    .select(RESERVATION_SELECT)
+    .eq('store_pin.store_id', storeId)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+
+  return (data ?? []).map(mapReservationRow);
+}
+
 export async function getReservationById(reservationId) {
   const { data, error } = await supabase
     .from('reservation')
@@ -137,7 +155,16 @@ export async function updateReservation(reservationId, patch) {
 }
 
 export async function confirmReservation(reservationId) {
-  return updateReservation(reservationId, { status: 'confirmed' });
+  const { data, error } = await supabase.rpc(
+    'confirm_reservation',
+    {
+      p_reservation_id: reservationId,
+    }
+  );
+
+  if (error) throw error;
+
+  return mapReservationRow(data);
 }
 
 export async function failReservation(reservationId, note = null) {
