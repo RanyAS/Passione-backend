@@ -5,7 +5,7 @@ export async function getAllHistory(user_id) {
         .from("user_history")
         .select(`
             *,
-            store(*)
+            stores(*)
             `)
         .eq("user_id", user_id);
     

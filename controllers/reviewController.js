@@ -1,4 +1,4 @@
-import { getReview, insertReview, deleteReview } from "../services/reviewService.js";
+import { getReview, insertReview, deleteReview, getReviewsByUser } from "../services/reviewService.js";
 
 export async function getReviewController(req, res) {
     try {
@@ -14,23 +14,37 @@ export async function getReviewController(req, res) {
     }
 }
 
+export async function getReviewsByUserController(req, res) {
+    try {
+        const user_id = req.params.user_id;
+
+        const reviews = await getReviewsByUser(user_id);
+
+        return res.status(200).json(reviews);
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
+        });
+    }
+}
+
 export async function insertReviewController(req, res) {
     try {
         const review_data = req.body;
 
-        if(!reviewData || Object.keys(reviewData).length === 0) {
-            res.status(404).json({
+        if (!review_data || Object.keys(review_data).length === 0) {
+            return res.status(400).json({
                 message: "Review data is required.",
-            })
+            });
         }
 
         const insert_review = await insertReview(review_data);
 
-        return res.status(200).json(insert_review);
+        return res.status(201).json(insert_review);
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             message: error.message,
-        })
+        });
     }
 }
 

@@ -8,6 +8,7 @@ import {
   failReservation,
   cancelReservation,
   deleteReservation,
+  completeReservation,
 } from '../services/reserveService.js';
 
 export async function createReserveController(req, res) {
@@ -106,6 +107,17 @@ export async function confirmController(req, res) {
   } catch (error) {
     return res.status(400).json({
       error: error.message ?? 'Failed to confirm reservation',
+    });
+  }
+}
+
+export async function completeController(req, res) {
+  try {
+    const reservation = await completeReservation(req.params.id);
+    return res.status(200).json({ data: reservation });
+  } catch (error) {
+    return res.status(400).json({
+      error: error.message ?? 'Failed to complete reservation',
     });
   }
 }

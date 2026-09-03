@@ -9,6 +9,7 @@ import {
   failController,
   cancelController,
   removeController,
+  completeController,
 } from '../controllers/reserveController.js';
 
 /**
@@ -38,6 +39,9 @@ export function createReserveRoutes(options = {}) {
 
   // POST   /reservations/:id/confirm
   reserveRouter.post('/:id/confirm', confirmController);
+
+  // POST   /reservations/:id/complete
+  reserveRouter.post('/:id/complete', completeController);
 
   // POST   /reservations/:id/fail
   reserveRouter.post('/:id/fail', failController);

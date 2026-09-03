@@ -175,6 +175,24 @@ export async function cancelReservation(reservationId, note = null) {
   return updateReservation(reservationId, { status: 'cancelled', note });
 }
 
+export async function completeReservation(reservationId) {
+  const reservation = await getReservationById(reservationId);
+
+  const updatedReservation = await updateReservation(reservationId, {
+    status: 'completed',
+  });
+
+  await supabase
+    .from('user_history')
+    .insert({
+      user_id: reservation.userId,
+      store_id: reservation.pin.storeId,
+      reservation_id: reservation.id,
+    });
+
+  return updatedReservation;
+}
+
 export async function deleteReservation(reservationId) {
   const { error } = await supabase.from('reservation').delete().eq('id', reservationId);
   if (error) throw error;
