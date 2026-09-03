@@ -7,6 +7,29 @@ import {
   getActiveStorePins 
 } from '../services/storepinService.js';
 
+// GET all active store pins
+export async function getAllActiveStorePinsController(req, res) {
+  try {
+    const data = await getActiveStorePins();
+
+    console.log("🔥 ALL ACTIVE PINS:", data);
+    console.log("🔥 ACTIVE PIN COUNT:", data.length);
+
+    return res.status(200).json({
+      success: true,
+      data,
+    });
+  } catch (error) {
+    console.error("🔥 GET ALL ACTIVE PINS ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: 'アクティブなpinを取得する際にエラーが発生しました',
+      error: error.message,
+    });
+  }
+}
+
 // GET all store pins for a store
 export async function getAllStorePinsController(req, res) {
   try {
@@ -69,6 +92,7 @@ export async function createStorePinController(req, res) {
   try {
     const payload = req.body;
     const data = await createStorePin(payload);
+    console.log("🔥 CREATE PIN REQUEST BODY:", payload);
 
     return res.status(201).json({
       success: true,

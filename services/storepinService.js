@@ -96,9 +96,28 @@ export async function getAllstorePin(storeId) {
 export async function getActiveStorePins(storeId, nowIso = new Date().toISOString()) {
   const allPins = await getAllstorePin(storeId);
 
+  console.log("🔥 NOW:", nowIso);
+  console.log("🔥 ALL PINS BEFORE ACTIVE FILTER:", allPins);
+
   return allPins.filter((pin) => {
     const afterStart = !pin.startsAt || pin.startsAt <= nowIso;
     const beforeEnd = !pin.endsAt || pin.endsAt >= nowIso;
+
+      console.log("🔥 PIN CHECK:", {
+
+      id: pin.id,
+
+      isActive: pin.isActive,
+
+      startsAt: pin.startsAt,
+
+      endsAt: pin.endsAt,
+
+      afterStart,
+
+      beforeEnd,
+
+    });
     return pin.isActive && afterStart && beforeEnd;
   });
 }
